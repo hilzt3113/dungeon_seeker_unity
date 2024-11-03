@@ -1,0 +1,4 @@
+﻿Type,SkillTypes,SkillTypes,SkinTypes,SkinTypes,IdleWeapon,MaxHp,Armor,Magic,Critical,HandAttackDamage,Speed,FightingSpeed,FinishFightingSpeed,IsIdleLeft,ArmorRecoveryTime,HurtArmorRecoveryTime,HurtInvincibleTime,PlayerName
+Knight,FireOnAllCylinders,FullScaleAttack,Knight,KnightLava,BadPistol,6,5,180,5,4,12,7.5,11.5,FALSE,1,4,0.5,Knight
+Rogue,Roll,Cut,Rogue,RogueKun,BadPistol,5,2,180,10,5,12,7.5,11.5,FALSE,1,4,0.5,Rogue
+Wizard,FireOnAllCylinders,None,Wizard,None,TheCode,3,5,240,0,3,12,7.5,11.5,FALSE,1,4,0.5,Wizard

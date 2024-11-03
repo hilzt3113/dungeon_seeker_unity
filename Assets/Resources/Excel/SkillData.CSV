@@ -1,0 +1,3 @@
+﻿Type,SkillDuration,SkillCoolTime,SkillName,SkillDescription,SeniorSkillDescription
+FireOnAllCylinders,5,10,Dual Wield,Wield the current weapon in both hands for a short duration.,Defeating enemies increases skill duration
+Roll,0,2.5,Dodge,Roll forward and dodge all enemy bullets.,Increases critical hit rate after rolling

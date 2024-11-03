@@ -1,0 +1,7 @@
+﻿buffType,stackType,PlayerDuration,EnemyDuration,intervalTime,PlayerDamage,EnemyDamage,SpeedDecrease,name
+Freeze,NotStack,1.375,2.75,0,0,0,0,Freeze
+Dizzy,NotStack,2,2,0,0,0,0,Dizzy
+Burn,NotStack,2,2,0.5,2,3,0,Burn
+Poisoning,NotStack,5,5,0.5,1,2,0.3,Poisoning
+Electricity,NotStack,6,6,0.4,2,3,0,Electricity
+None,NotStack,0,0,0,0,0,0,null
