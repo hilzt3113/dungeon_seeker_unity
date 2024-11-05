@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 #if UNITY_2018_1_OR_NEWER
 using UnityEngine.Networking;
@@ -13,13 +13,18 @@ namespace Pathfinding
     public static class AstarUpdateChecker
     {
 #if UNITY_2018_1_OR_NEWER
-        /// <summary>Used for downloading new version information</summary>
+        private class AcceptAllCertificatesHandler : CertificateHandler
+        {
+            protected override bool ValidateCertificate(byte[] certificateData)
+            {
+                return true;
+            }
+        }
+
         static UnityWebRequest updateCheckDownload;
 #else
-		/// <summary>Used for downloading new version information</summary>
-		static WWW updateCheckDownload;
+        static WWW updateCheckDownload;
 #endif
-
         static System.DateTime _lastUpdateCheck;
         static bool _lastUpdateCheckRead;
 
@@ -36,7 +41,7 @@ namespace Pathfinding
         const double updateCheckRate = 1F;
 
         /// <summary>URL to the version file containing the latest version number.</summary>
-        const string updateURL = "http://www.arongranberg.com/astar/version.php";
+        const string updateURL = "https://www.arongranberg.com/astar/version.php";
 
         /// <summary>Last time an update check was made</summary>
         public static System.DateTime lastUpdateCheck
@@ -170,9 +175,18 @@ namespace Pathfinding
         /// </summary>
         static void UpdateCheckLoop()
         {
-            // Go on until the update check has been completed
             if (!CheckForUpdates())
             {
+#if UNITY_2018_1_OR_NEWER
+                if (updateCheckDownload != null)
+                {
+                    if (updateCheckDownload.certificateHandler != null)
+                    {
+                        updateCheckDownload.certificateHandler.Dispose();
+                    }
+                    updateCheckDownload.Dispose();
+                }
+#endif
                 EditorApplication.update -= UpdateCheckLoop;
             }
         }
@@ -231,33 +245,37 @@ namespace Pathfinding
 
             bool mecanim = GameObject.FindObjectOfType(typeof(Animator)) != null;
             string query = updateURL +
-                           "?v=" + AstarPath.Version +
-                           "&pro=0" +
-                           "&check=" + updateCheckRate + "&distr=" + AstarPath.Distribution +
-                           "&unitypro=" + (Application.HasProLicense() ? "1" : "0") +
-                           "&inscene=" + (script != null ? "1" : "0") +
-                           "&targetplatform=" + EditorUserBuildSettings.activeBuildTarget +
-                           "&devplatform=" + Application.platform +
-                           "&mecanim=" + (mecanim ? "1" : "0") +
-                           "&hasNavmesh=" + (script != null && script.data.graphs.Any(g => g.GetType().Name == "NavMeshGraph") ? 1 : 0) +
-                           "&hasPoint=" + (script != null && script.data.graphs.Any(g => g.GetType().Name == "PointGraph") ? 1 : 0) +
-                           "&hasGrid=" + (script != null && script.data.graphs.Any(g => g.GetType().Name == "GridGraph") ? 1 : 0) +
-                           "&hasLayered=" + (script != null && script.data.graphs.Any(g => g.GetType().Name == "LayerGridGraph") ? 1 : 0) +
-                           "&hasRecast=" + (script != null && script.data.graphs.Any(g => g.GetType().Name == "RecastGraph") ? 1 : 0) +
-                           "&hasGrid=" + (script != null && script.data.graphs.Any(g => g.GetType().Name == "GridGraph") ? 1 : 0) +
-                           "&hasCustom=" + (script != null && script.data.graphs.Any(g => g != null && !g.GetType().FullName.Contains("Pathfinding.")) ? 1 : 0) +
-                           "&graphCount=" + (script != null ? script.data.graphs.Count(g => g != null) : 0) +
-                           "&unityversion=" + Application.unityVersion +
-                           "&branch=" + AstarPath.Branch;
+                          "?v=" + AstarPath.Version +
+                          "&pro=0" +
+                          "&check=" + updateCheckRate + "&distr=" + AstarPath.Distribution +
+                          "&unitypro=" + (Application.HasProLicense() ? "1" : "0") +
+                          "&inscene=" + (script != null ? "1" : "0") +
+                          "&targetplatform=" + EditorUserBuildSettings.activeBuildTarget +
+                          "&devplatform=" + Application.platform +
+                          "&mecanim=" + (mecanim ? "1" : "0") +
+                          "&hasNavmesh=" + (script != null && script.data.graphs.Any(g => g.GetType().Name == "NavMeshGraph") ? 1 : 0) +
+                          "&hasPoint=" + (script != null && script.data.graphs.Any(g => g.GetType().Name == "PointGraph") ? 1 : 0) +
+                          "&hasGrid=" + (script != null && script.data.graphs.Any(g => g.GetType().Name == "GridGraph") ? 1 : 0) +
+                          "&hasLayered=" + (script != null && script.data.graphs.Any(g => g.GetType().Name == "LayerGridGraph") ? 1 : 0) +
+                          "&hasRecast=" + (script != null && script.data.graphs.Any(g => g.GetType().Name == "RecastGraph") ? 1 : 0) +
+                          "&hasGrid=" + (script != null && script.data.graphs.Any(g => g.GetType().Name == "GridGraph") ? 1 : 0) +
+                          "&hasCustom=" + (script != null && script.data.graphs.Any(g => g != null && !g.GetType().FullName.Contains("Pathfinding.")) ? 1 : 0) +
+                          "&graphCount=" + (script != null ? script.data.graphs.Count(g => g != null) : 0) +
+                          "&unityversion=" + Application.unityVersion +
+                          "&branch=" + AstarPath.Branch;
 
 #if UNITY_2018_1_OR_NEWER
             updateCheckDownload = UnityWebRequest.Get(query);
+            updateCheckDownload.certificateHandler = new AcceptAllCertificatesHandler();
             updateCheckDownload.SendWebRequest();
 #else
-			updateCheckDownload = new WWW(query);
+            updateCheckDownload = new WWW(query);
 #endif
+
             lastUpdateCheck = System.DateTime.UtcNow;
         }
+
+        
 
         /// <summary>Handles the data from the update page</summary>
         static void UpdateCheckCompleted(string result)

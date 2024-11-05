@@ -85,8 +85,8 @@ MonoBehaviour:
   - {fileID: 8040047764474340816}
   - {fileID: -6519462808395568060}
   EditorData:
-    PanOffset: {x: -664.9619, y: -262.67606}
-    Zoom: 1.1685508
+    PanOffset: {x: -583.2758, y: -177.89536}
+    Zoom: 1.1861017
   RoomType: CustomRoom
   ConnectionType: CustomConnection
   IsDirected: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 498bfbe1ed4958b40bac428ce40eeb8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Position: {x: 1248, y: 432}
+  Position: {x: 1232, y: 432}
   RoomType: 0
 --- !u!114 &5364255274150901372
 MonoBehaviour:

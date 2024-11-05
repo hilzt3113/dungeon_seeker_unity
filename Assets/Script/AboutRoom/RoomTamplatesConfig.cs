@@ -16,13 +16,13 @@ public class RoomTamplatesConfig
 
     public GameObject[] TeleportRoomTemplates;
 
-    public GameObject[] HubRoomTemplates;
+    //public GameObject[] HubRoomTemplates;
 
-    public GameObject[] TreasureRoomTemplates;
+    //public GameObject[] TreasureRoomTemplates;
 
-    public GameObject[] ShopRoomTemplates;
+    //public GameObject[] ShopRoomTemplates;
 
-    public GameObject[] SecretRoomTemplates;
+    //public GameObject[] SecretRoomTemplates;
 
     /// <summary>
     /// Get room templates for a given room.
@@ -42,11 +42,11 @@ public class RoomTamplatesConfig
             case RoomType.EliteEnemyRoom:
                 return EliteEnemyRoomTemplates;
 
-            case RoomType.ShopRoom:
-                return ShopRoomTemplates;
+            //case RoomType.ShopRoom:
+            //    return ShopRoomTemplates;
 
-            case RoomType.TreasureRoom:
-                return TreasureRoomTemplates;
+            //case RoomType.TreasureRoom:
+            //    return TreasureRoomTemplates;
 
             case RoomType.BirthRoom:
                 return BirthRoomTemplates;
@@ -54,8 +54,8 @@ public class RoomTamplatesConfig
             case RoomType.TeleportRoom:
                 return TeleportRoomTemplates;
 
-            case RoomType.SecretRoom:
-                return SecretRoomTemplates;
+            //case RoomType.SecretRoom:
+            //    return SecretRoomTemplates;
 
             default:
                 return BasicRoomTemplates;
